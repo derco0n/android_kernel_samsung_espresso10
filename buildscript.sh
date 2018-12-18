@@ -35,7 +35,7 @@ echo "         Compiling Espresso Kernel             "
 echo -e "***********************************************$nocol"
 make clean && make mrproper
 #Which config to use
-make espresso_defconfig
+make espresso_coonzconfig
 make menuconfig
 BUILD_START=$(date +"%s")
 
