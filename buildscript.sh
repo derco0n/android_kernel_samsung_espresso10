@@ -6,7 +6,7 @@
 KERNEL_DIR=$PWD
 ZIMAGE=$KERNEL_DIR/arch/arm/boot/zImage
 BOOTIMAGEDIR=$KERNEL_DIR/boot-image_espresso_lineage
-OUTBOOTIMGNAME=new_coonzmod_boot_arm-eabi_4.6.img
+OUTBOOTIMGNAME=coonzmod_boot_arm-eabi_4.6.img
 BUILD_START=$(date +"%s")
 THREADS=9
 
@@ -50,8 +50,9 @@ echo "         Compiling Espresso Kernel             "
 echo -e "***********************************************$nocol"
 make clean && make mrproper
 #Which config to use
-#make espresso_defconfig
-make espresso-coon_defconfig
+
+make espresso-coon_defconfig #Default config
+#make espresso-coon-nhp_defconfig #Kali Nethunter enabled config
 make menuconfig
 BUILD_START=$(date +"%s")
 
