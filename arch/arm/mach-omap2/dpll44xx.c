@@ -938,6 +938,7 @@ int omap4_prcm_freq_update(void)
 #define MAX_DPLL_WAIT_TRIES	1000000
 
 #define OMAP_1_5GHz	1500000000
+#define OMAP_1_4GHz	1400000000
 #define OMAP_1_2GHz	1200000000
 #define OMAP_1GHz	1000000000
 #define OMAP_920MHz	920000000
@@ -1059,7 +1060,9 @@ int omap4460_mpu_dpll_set_rate(struct clk *clk, unsigned long rate)
 	 * DCC shouldn't be used at any frequency.
 	 */
 	dpll_rate = omap2_get_dpll_rate(clk->parent);
-	if (!cpu_is_omap447x() || rate <= OMAP_1GHz) {
+	//if (!cpu_is_omap447x() || rate <= OMAP_1GHz) {
+	if (!cpu_is_omap447x() && rate <= OMAP_1GHz) {
+	//if (!cpu_is_omap447x() || rate <= OMAP_1_2GHz) {
 		/* If DCC is enabled, disable it */
 		v = __raw_readl(dd->mult_div1_reg);
 		if (v & OMAP4460_DCC_EN_MASK) {
