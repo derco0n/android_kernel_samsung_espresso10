@@ -183,8 +183,19 @@ static struct omap_opp_def __initdata omap443x_opp_def_list[] = {
 	OPP_INITIALIZER("mpu", "dpll_mpu_ck", "mpu", true, 1008000000, OMAP4430_VDD_MPU_OPPNITRO_UV),
 	/* MPU OPP5 - OPP-SB */
 	OPP_INITIALIZER("mpu", "dpll_mpu_ck", "mpu", true, 1200000000, OMAP4430_VDD_MPU_OPPNITRO_UV), //Enable 1,2 GHz
-	/* MPU OPP6 - OPP-SB */
-	//OPP_INITIALIZER("mpu", "dpll_mpu_ck", "mpu", true, 1400000000, OMAP4430_VDD_MPU_OPPNITROSB_UV), //Enable 1,4 GHz //Todo: Need to change voltage here??
+	/* OC to 1,3 GHz */
+	OPP_INITIALIZER("mpu", "dpll_mpu_ck", "mpu", true, 1300000000, OMAP4430_VDD_MPU_OPPNITRO_UV), //Enable 1,3 GHz //Testing v3 -> Working. Seems stable
+	
+	/* 
+	* Test Lines...
+	//OPP_INITIALIZER("mpu", "dpll_mpu_ck", "mpu", true, 1300000000, OMAP4430_VDD_MPU_OPPNITROSB_UV), //Enable 1,3 GHz //Testing v4 -> Not working. Boot loop //May be "OMAP4430_VDD_MPU_OPPNITROSB_UV" does not exist or is not correct
+	//OPP_INITIALIZER("mpu", "dpll_mpu_ck", "mpu", true, 1400000000, OMAP4430_VDD_MPU_OPPNITRO_UV), //Enable 1,4 GHz //Testing v5 -> Not working. Stuck at boot/black screen. //May be voltage too low
+	//OPP_INITIALIZER("mpu", "dpll_mpu_ck", "mpu", true, 1350000000, OMAP4430_VDD_MPU_OPPNITRO_UV), //Enable 1,35 GHz //Testing v7 -> Not working. Stuck at boot.
+	//OPP_INITIALIZER("mpu", "dpll_mpu_ck", "mpu", true, 1350000000, OMAP4430_VDD_MPU_OPPNITROSB_UV), //Enable 1,35 GHz //Testing v8 -> Not working. Boot loop //May be "OMAP4430_VDD_MPU_OPPNITROSB_UV" does not exist or is not correct
+	* Something seems wrong with higher freqeuencies....
+	* end testing... 
+	*/
+	
 	/* L3 OPP1 - OPP50 */
 	OPP_INITIALIZER("l3_main_1", "virt_l3_ck", "core", true, 100000000, OMAP4430_VDD_CORE_OPP50_UV),
 	/* L3 OPP2 - OPP100, OPP-Turbo, OPP-SB */
@@ -731,9 +742,11 @@ int __init omap4_opp_init(void)
 
 	/* Enable Nitro and NitroSB MPU OPPs */
 	//if (omap4_has_mpu_1_2ghz())
-		omap4_opp_enable("mpu", 1200000000); //Force enable overclocking to 1,2GHz
+		//omap4_opp_enable("mpu", 1200000000); //Force enable overclocking to 1,2GHz
+	//omap4_opp_enable("mpu", 1250000000); //Force enable overclocking to 1,25GHz
 	
-	// omap4_opp_enable("mpu", 1400000000); //Force enable overclocking to 1,4GHz (ignore trimming here)
+	 omap4_opp_enable("mpu", 1350000000); //Force enable overclocking to 1,35GHz (ignore trimming here)
+	//omap4_opp_enable("mpu", 1300000000); //Force enable overclocking to 1,35GHz (ignore trimming here)
 	
 	if (!trimmed)
 		pr_info("This is DPLL un-trimmed SOM. OPP is limited at 1.2 GHz\n");
